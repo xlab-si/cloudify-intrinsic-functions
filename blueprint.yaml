@@ -1,0 +1,40 @@
+tosca_definitions_version: cloudify_dsl_1_3
+
+imports:
+  - http://www.getcloudify.org/spec/cloudify/3.4.2/types.yaml
+
+
+node_types:
+
+  type_a:
+    derived_from: cloudify.nodes.Root
+    properties:
+      property_a: { default: property_a_value }
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: scripts/create_a.py
+          executor: central_deployment_agent
+
+  type_b:
+    derived_from: cloudify.nodes.Root
+    properties:
+      property_b1: { required: true }
+      property_b2: { required: true }
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: scripts/create_b.py
+          executor: central_deployment_agent
+
+
+node_templates:
+
+  node_a:
+    type: type_a
+
+  node_b:
+    type: type_b
+    properties:
+      property_b1: some data from node_a
+      property_b2: more data from node_a
