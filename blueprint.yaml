@@ -36,5 +36,8 @@ node_templates:
   node_b:
     type: type_b
     properties:
-      property_b1: some data from node_a
-      property_b2: more data from node_a
+      property_b1: { get_property:  [ node_a, property_a  ] }
+      property_b2: { get_attribute: [ node_a, attribute_a ] }
+    relationships:
+      - type: cloudify.relationships.connected_to
+        target: node_a
