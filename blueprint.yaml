@@ -41,3 +41,10 @@ node_templates:
     relationships:
       - type: cloudify.relationships.connected_to
         target: node_a
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: scripts/create_b.py
+          executor: central_deployment_agent
+          inputs:
+            input_b2: { get_attribute: [ node_a, attribute_a ] }
